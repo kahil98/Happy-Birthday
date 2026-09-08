@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Very Important Birthday Question 💗</title>
+  <style>
+    :root {
+      --pink: #ff5fa2;
+      --pink-dark: #eb3f8a;
+      --pink-light: #ffd6e8;
+      --cream: #fff8fb;
+      --text: #5a2941;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      color: var(--text);
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 20%, #fff 0 6%, transparent 7%),
+        radial-gradient(circle at 80% 15%, #fff 0 5%, transparent 6%),
+        linear-gradient(135deg, #ffc8df 0%, #ffe6f0 45%, #fff6fa 100%);
+    }
+
+    .hearts-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -40px;
+      opacity: .32;
+      animation: floatUp linear infinite;
+      filter: drop-shadow(0 4px 6px rgba(255, 78, 149, .18));
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg) scale(.8); opacity: 0; }
+      10% { opacity: .35; }
+      100% { transform: translateY(-115vh) rotate(360deg) scale(1.2); opacity: 0; }
+    }
+
+    .app {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: min(700px, 95vw);
+      min-height: 480px;
+      padding: 34px 30px;
+      border-radius: 32px;
+      background: rgba(255,255,255,.80);
+      backdrop-filter: blur(14px);
+      border: 2px solid rgba(255,255,255,.82);
+      box-shadow: 0 22px 70px rgba(214, 62, 125, .20);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before,
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: rgba(255, 102, 166, .13);
+      z-index: -1;
+    }
+    .card::before { top: -70px; right: -50px; }
+    .card::after { bottom: -80px; left: -40px; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 8px 14px;
+      background: #ffe4ef;
+      color: #c82f75;
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .emoji { font-size: 72px; line-height: 1; margin-bottom: 16px; }
+
+    h1 {
+      font-size: clamp(30px, 5vw, 52px);
+      margin: 0 0 12px;
+      color: #d9367c;
+      letter-spacing: -1px;
+    }
+
+    .subtitle {
+      max-width: 570px;
+      margin: 0 auto;
+      font-size: 17px;
+      line-height: 1.6;
+      color: #75485d;
+    }
+
+    .button-zone {
+      position: relative;
+      height: 170px;
+      margin-top: 28px;
+      border-radius: 24px;
+      background: rgba(255, 220, 235, .45);
+      border: 1px dashed rgba(226, 74, 136, .25);
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 16px 30px;
+      font-size: 18px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+      user-select: none;
+    }
+
+    .yes-btn {
+      position: absolute;
+      left: 28%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      background: linear-gradient(135deg, #ff5fa2, #ff7eb6);
+      box-shadow: 0 10px 24px rgba(239, 63, 138, .30);
+    }
+
+    .yes-btn:hover { transform: translate(-50%, -50%) scale(1.08); }
+
+    .no-btn {
+      position: absolute;
+      left: 72%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: #b92c69;
+      background: white;
+      box-shadow: 0 8px 22px rgba(150, 58, 98, .12);
+      transition: left .12s ease, top .12s ease, transform .12s ease;
+    }
+
+    .tease {
+      min-height: 28px;
+      margin-top: 12px;
+      font-weight: 800;
+      color: #d13b7d;
+    }
+
+    .progress {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #f1b9d1;
+    }
+    .dot.active { background: #e54588; transform: scale(1.2); }
+
+    .hidden { display: none; }
+
+    .final-box {
+      margin: 26px auto 0;
+      max-width: 530px;
+      padding: 24px;
+      background: linear-gradient(135deg, #fff, #ffeaf3);
+      border: 1px solid #ffd2e4;
+      border-radius: 24px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.6);
+    }
+
+    .final-box p { margin: 10px 0; font-size: 18px; line-height: 1.55; }
+    .big-love { font-size: 28px !important; font-weight: 900; color: #d9367c; }
+
+    .tiny-note {
+      margin-top: 22px;
+      font-size: 13px;
+      opacity: .7;
+    }
+
+    .confetti {
+      position: fixed;
+      top: -30px;
+      width: 10px;
+      height: 18px;
+      z-index: 20;
+      pointer-events: none;
+      animation: fall 2.4s linear forwards;
+    }
+
+    @keyframes fall {
+      to { transform: translateY(110vh) rotate(760deg); opacity: .8; }
+    }
+
+    .pulse-heart {
+      animation: pulse 1.1s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.12); }
+    }
+
+    @media (max-width: 600px) {
+      .card { min-height: 520px; padding: 28px 18px; border-radius: 26px; }
+      .button-zone { height: 210px; }
+      .yes-btn { left: 50%; top: 34%; }
+      .no-btn { left: 50%; top: 70%; }
+      button { padding: 15px 26px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts-bg" id="heartsBg"></div>
+
+  <main class="app">
+    <section class="card">
+      <div class="progress">
+        <span class="dot active" id="d1"></span>
+        <span class="dot" id="d2"></span>
+        <span class="dot" id="d3"></span>
+      </div>
+
+      <div id="page1">
+        <div class="badge">🎂 Birthday Mission #1</div>
+        <div class="emoji pulse-heart">💗</div>
+        <h1>Do you love me?</h1>
+        <p class="subtitle">Important scientific birthday research. Please answer carefully. One answer is highly recommended 😌</p>
+        <div class="button-zone" id="zone1">
+          <button class="yes-btn" id="yes1">YESSS 💕</button>
+          <button class="no-btn" id="no1">No 🙄</button>
+        </div>
+        <div class="tease" id="tease1"></div>
+      </div>
+
+      <div id="page2" class="hidden">
+        <div class="badge">💌 Birthday Mission #2</div>
+        <div class="emoji">🌸</div>
+        <h1>Do you want to hang out with me?</h1>
+        <p class="subtitle">Think very carefully. There may be food, laughs, birthday energy, and a suspiciously charming person involved.</p>
+        <div class="button-zone" id="zone2">
+          <button class="yes-btn" id="yes2">Obviously yes 💞</button>
+          <button class="no-btn" id="no2">Nope 😏</button>
+        </div>
+        <div class="tease" id="tease2"></div>
+      </div>
+
+      <div id="page3" class="hidden">
+        <div class="badge">✨ Mission Complete</div>
+        <div class="emoji pulse-heart">💖</div>
+        <h1>Perfect answer.</h1>
+        <p class="subtitle">You have successfully passed the extremely serious birthday relationship test 🥹</p>
+
+        <div class="final-box">
+          <p>📍 <b>Location:</b> will be revealed by me</p>
+          <p>🕒 <b>Time:</b> will also be revealed by me</p>
+          <p>👀 <b>Status:</b> Stay tuned...</p>
+          <p class="big-love">I love you ❤️</p>
+          <p>And most importantly…</p>
+          <p><b>Happy Birthday to the sweetest heart 🎂🌷💗</b></p>
+        </div>
+
+        <div class="tiny-note">P.S. Trying to press “No” was very suspicious behavior 🤨💕</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const teasing1 = [
+      "Excuse me?? Try again 😂",
+      "That button seems a little shy 😌",
+      "Wrong answer detected 🚨",
+      "No is currently unavailable 💅",
+      "Nice try, birthday girl 😭",
+      "I think you meant YES 💗",
+      "The No button has trust issues now 🤭"
+    ];
+
+    const teasing2 = [
+      "You can't escape the date that easily 😌",
+      "Hmm… suspicious answer 🤨",
+      "The No button is going on vacation ✈️",
+      "Free food may be involved. Reconsider 😭",
+      "Too slow 😂",
+      "Come onnnn 💕",
+      "I already told the universe you're coming ✨"
+    ];
+
+    function moveButton(button, zone, teaseEl, messages) {
+      const zoneRect = zone.getBoundingClientRect();
+      const btnRect = button.getBoundingClientRect();
+      const padding = 10;
+      const maxX = Math.max(padding, zoneRect.width - btnRect.width - padding);
+      const maxY = Math.max(padding, zoneRect.height - btnRect.height - padding);
+      const x = padding + Math.random() * (maxX - padding);
+      const y = padding + Math.random() * (maxY - padding);
+      button.style.left = `${x + btnRect.width/2}px`;
+      button.style.top = `${y + btnRect.height/2}px`;
+      teaseEl.textContent = messages[Math.floor(Math.random() * messages.length)];
+    }
+
+    function activateRunaway(buttonId, zoneId, teaseId, messages) {
+      const button = document.getElementById(buttonId);
+      const zone = document.getElementById(zoneId);
+      const tease = document.getElementById(teaseId);
+
+      button.addEventListener('mouseenter', () => moveButton(button, zone, tease, messages));
+      button.addEventListener('mouseover', () => moveButton(button, zone, tease, messages));
+      button.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        moveButton(button, zone, tease, messages);
+      }, { passive: false });
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        moveButton(button, zone, tease, messages);
+      });
+
+      zone.addEventListener('mousemove', (e) => {
+        const br = button.getBoundingClientRect();
+        const cx = br.left + br.width / 2;
+        const cy = br.top + br.height / 2;
+        const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
+        if (dist < 85) moveButton(button, zone, tease, messages);
+      });
+    }
+
+    activateRunaway('no1', 'zone1', 'tease1', teasing1);
+    activateRunaway('no2', 'zone2', 'tease2', teasing2);
+
+    function showPage(pageNum) {
+      for (let i = 1; i <= 3; i++) {
+        document.getElementById('page' + i).classList.toggle('hidden', i !== pageNum);
+        document.getElementById('d' + i).classList.toggle('active', i === pageNum);
+      }
+    }
+
+    document.getElementById('yes1').addEventListener('click', () => {
+      miniConfetti(36);
+      showPage(2);
+    });
+
+    document.getElementById('yes2').addEventListener('click', () => {
+      showPage(3);
+      miniConfetti(90);
+    });
+
+    function miniConfetti(count) {
+      const emojis = ['💗','💖','💕','🌸','✨','🎀'];
+      for (let i = 0; i < count; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.fontSize = (12 + Math.random() * 18) + 'px';
+        c.style.animationDuration = (1.7 + Math.random() * 2.2) + 's';
+        c.style.animationDelay = (Math.random() * .3) + 's';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 4300);
+      }
+    }
+
+    function createFloatingHearts() {
+      const bg = document.getElementById('heartsBg');
+      const chars = ['♡','♥','💗','💕','🌸'];
+      for (let i = 0; i < 26; i++) {
+        const h = document.createElement('span');
+        h.className = 'heart';
+        h.textContent = chars[Math.floor(Math.random() * chars.length)];
+        h.style.left = Math.random() * 100 + 'vw';
+        h.style.fontSize = (16 + Math.random() * 30) + 'px';
+        h.style.animationDuration = (8 + Math.random() * 12) + 's';
+        h.style.animationDelay = (-Math.random() * 15) + 's';
+        bg.appendChild(h);
+      }
+    }
+
+    createFloatingHearts();
+  </script>
+</body>
+</html>
